@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace Quizy.Core
+namespace Quizy.MVVM.Viewmodel
 {
     class RelayCommand : ICommand
     {
