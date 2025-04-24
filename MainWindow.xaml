@@ -36,7 +36,8 @@
             <TextBlock Grid.Row="0" Grid.Column="0"
                        Text="Quizy"
                        VerticalAlignment="Center"
-                       HorizontalAlignment="Center"
+                       HorizontalAlignment="Left"
+                       Margin="20,0,0,0"
                        FontSize="36"
                        FontFamily="/Resource/#Poppins"/>
 
