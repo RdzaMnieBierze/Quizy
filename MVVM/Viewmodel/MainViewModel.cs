@@ -8,10 +8,8 @@ using System.Windows;
 
 namespace Quizy.MVVM.Viewmodel
 {
-    class MainViewModel : INotifyPropertyChanged
+    class MainViewModel : ViewModelBase
     {
-        public event PropertyChangedEventHandler? PropertyChanged;
-
         public RelayCommand exit => new RelayCommand(execute => ExitButton());
         private void ExitButton()
         {

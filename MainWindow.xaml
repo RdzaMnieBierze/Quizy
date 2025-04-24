@@ -38,7 +38,7 @@
                        VerticalAlignment="Center"
                        HorizontalAlignment="Left"
                        Margin="20,0,0,0"
-                       FontSize="36"
+                       FontSize="40"
                        FontFamily="/Resource/#Poppins"/>
 
             <Border Grid.Column="1"  Grid.Row="0" HorizontalAlignment="Right"
@@ -48,6 +48,13 @@
                     BorderThickness="1.5">
                 <Button Content="X" BorderThickness="0" Foreground="Black" Background="Transparent" Command="{Binding exit}" FontFamily="/Resource/#Poppins" FontWeight="Bold"/>
             </Border>
+
+            <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Vertical" VerticalAlignment="Center">
+                <RadioButton Content="Rozpocznij" Style="{StaticResource MenuButtonTheme}"/>
+                <RadioButton Content="Stwórz" Style="{StaticResource MenuButtonTheme}"/>
+                <RadioButton Content="Wczytaj" Style="{StaticResource MenuButtonTheme}"/>
+                <RadioButton Content="Edytuj" Style="{StaticResource MenuButtonTheme}"/>
+            </StackPanel>
 
         </Grid>
     </Border>

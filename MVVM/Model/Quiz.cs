@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Quizy.MVVM.Model
 {
-    class Quiz : ObservableObject
+    class Quiz
     {
         ObservableCollection<Question>? Questions { get; set; }
         int QuestionsLenght = 0;
