@@ -20,10 +20,10 @@
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
 
-        <RadioButton Content="Halo" Style="{StaticResource MenuButtonTheme}" Grid.Column="0" Grid.Row="1"/>
-        <RadioButton Content="{Binding Answear2}" Grid.Column="1" Grid.Row="1"/>
-        <RadioButton Content="{Binding Answear3}" Style="{StaticResource MenuButtonTheme}" Grid.Column="0" Grid.Row="2"/>
-        <RadioButton Content="{Binding Answear4}" Style="{StaticResource MenuButtonTheme}" Grid.Column="1" Grid.Row="2"/>
+        <RadioButton Content="{Binding Answer1}" Style="{StaticResource MenuButtonTheme}" Grid.Column="0" Grid.Row="1"/>
+        <RadioButton Content="{Binding Answer2}" Style="{StaticResource MenuButtonTheme}" Grid.Column="1" Grid.Row="1"/>
+        <RadioButton Content="{Binding Answer3}" Style="{StaticResource MenuButtonTheme}" Grid.Column="0" Grid.Row="2"/>
+        <RadioButton Content="{Binding Answer4}" Style="{StaticResource MenuButtonTheme}" Grid.Column="1" Grid.Row="2"/>
         
         <Button Command="{Binding NextQuestion}"
             Content="->" Grid.Column="1" Grid.Row="3" Style="{StaticResource NextButton}"/>
