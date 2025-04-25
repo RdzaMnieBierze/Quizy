@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Quizy"
-        xmlns:viewModel="clr-namespace:Quizy.MVVM.Viewmodel"
+        xmlns:viewModel="clr-namespace:Quizy.MVVM.Viewmodel" xmlns:view="clr-namespace:Quizy.MVVM.View"
         mc:Ignorable="d"
         Title="MainWindow" Height="600" Width="1000"
         WindowStyle="None"
@@ -55,6 +55,9 @@
                 <RadioButton Content="Wczytaj" Style="{StaticResource MenuButtonTheme}"/>
                 <RadioButton Content="Edytuj" Style="{StaticResource MenuButtonTheme}"/>
             </StackPanel>
+
+            <view:SolveQuizView Grid.Column="1" Grid.Row="1"/>
+
 
         </Grid>
     </Border>
