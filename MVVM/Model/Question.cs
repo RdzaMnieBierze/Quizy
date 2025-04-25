@@ -8,17 +8,19 @@ using System.Threading.Tasks;
 
 namespace Quizy.MVVM.Model
 {
-    class Question
+    public class Question:ObservableCollection<Answer>
     {
-        ObservableCollection<Answer>? Answers;
-        string Content;
-        Question(string[] ans, bool[] corr, string _content)
+    
+
+        private string _content;
+        public string Content { get { return _content; } }
+        public Question(string[] ans, bool[] corr, string _content)
         {
-            Content = _content;
+           this._content = _content;
 
             for(int i = 0; i < ans.Length; i++)
             {
-                Answers.Add(new Answer(ans[i], corr[i]));
+                Add(new Answer(ans[i], corr[i]));
             }
         }
     }

@@ -7,6 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
+        
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition/>
@@ -19,12 +20,14 @@
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
 
-        <RadioButton Content="Odpowiedz_1" Style="{StaticResource MenuButtonTheme}" Grid.Column="0" Grid.Row="1"/>
-        <RadioButton Content="Odpowiedz_2" Style="{StaticResource MenuButtonTheme}" Grid.Column="1" Grid.Row="1"/>
-        <RadioButton Content="Odpowiedz_3" Style="{StaticResource MenuButtonTheme}" Grid.Column="0" Grid.Row="2"/>
-        <RadioButton Content="Odpowiedz_4" Style="{StaticResource MenuButtonTheme}" Grid.Column="1" Grid.Row="2"/>
-        <Button Content="->" Grid.Column="1" Grid.Row="3" Style="{StaticResource NextButton}"/>
+        <RadioButton Content="Halo" Style="{StaticResource MenuButtonTheme}" Grid.Column="0" Grid.Row="1"/>
+        <RadioButton Content="{Binding Answear2}" Grid.Column="1" Grid.Row="1"/>
+        <RadioButton Content="{Binding Answear3}" Style="{StaticResource MenuButtonTheme}" Grid.Column="0" Grid.Row="2"/>
+        <RadioButton Content="{Binding Answear4}" Style="{StaticResource MenuButtonTheme}" Grid.Column="1" Grid.Row="2"/>
+        
+        <Button Command="{Binding NextQuestion}"
+            Content="->" Grid.Column="1" Grid.Row="3" Style="{StaticResource NextButton}"/>
 
-        <TextBlock Text="Przykladowe pytanie"  VerticalAlignment="Stretch" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"/>
+        <TextBlock Text="{Binding Question}" FontSize="20" VerticalAlignment="Stretch" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"/>
     </Grid>
 </UserControl>
