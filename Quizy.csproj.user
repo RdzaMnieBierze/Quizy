@@ -7,6 +7,9 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="MVVM\View\CreateQuizView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="MVVM\View\SolveQuizView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -15,7 +18,16 @@
     <Page Update="MainWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="MVVM\View\CreateQuizView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Theme\AnswearInputTheme.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Theme\MenuButtons.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Theme\QuestionInputTheme.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
