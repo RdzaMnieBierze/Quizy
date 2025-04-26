@@ -56,7 +56,7 @@
                 <RadioButton Content="Edytuj" Style="{StaticResource MenuButtonTheme}"/>
             </StackPanel>
 
-            <view:SolveQuizView Grid.Column="1" Grid.Row="1"/>
+            <view:CreateQuizView Grid.Column="1" Grid.Row="1"/>
 
 
         </Grid>

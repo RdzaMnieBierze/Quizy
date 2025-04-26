@@ -23,6 +23,7 @@ namespace Quizy.MVVM.View
         public CreateQuizView()
         {
             InitializeComponent();
+            DataContext = new MVVM.Viewmodel.CreateViewModel();
         }
     }
 }

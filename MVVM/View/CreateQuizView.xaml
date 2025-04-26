@@ -18,13 +18,15 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <TextBox x:Name="QuestionInput" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
+        <TextBox x:Name="QuestionInput" Text="{Binding Question}" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
                  Margin="40,30,40,30" Style="{StaticResource QuestionInputTheme}"/>
-        <TextBox x:Name="Answear1Input" Grid.Row="1" Grid.Column="0" Style="{StaticResource AnswearInputTheme}"/>
-        <TextBox x:Name="Answear2Input" Grid.Row="1" Grid.Column="1" Style="{StaticResource AnswearInputTheme}"/>
-        <TextBox x:Name="Answear3Input" Grid.Row="2" Grid.Column="0" Style="{StaticResource AnswearInputTheme}"/>
-        <TextBox x:Name="Answear4Input" Grid.Row="2" Grid.Column="1" Style="{StaticResource AnswearInputTheme}"/>
-        
+        <TextBox x:Name="Answear1Input" Text="{Binding Answers[0]}"  Grid.Row="1" Grid.Column="0" Style="{StaticResource AnswearInputTheme}"/>
+        <TextBox x:Name="Answear2Input" Text="{Binding Answers[1]}" Grid.Row="1" Grid.Column="1" Style="{StaticResource AnswearInputTheme}"/>
+        <TextBox x:Name="Answear3Input" Text="{Binding Answers[2]}" Grid.Row="2" Grid.Column="0" Style="{StaticResource AnswearInputTheme}"/>
+        <TextBox x:Name="Answear4Input" Text="{Binding Answers[3]}" Grid.Row="2" Grid.Column="1" Style="{StaticResource AnswearInputTheme}"/>
+
+        <Button Style="{StaticResource NextButton}" Content="->" Grid.Column="1" Grid.Row="3" Command="{Binding Add}"/>
+
 
     </Grid>
 </UserControl>
