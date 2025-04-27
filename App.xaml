@@ -11,6 +11,7 @@
                 <ResourceDictionary Source="Theme/QuestionInputTheme.xaml"/>
                 <ResourceDictionary Source="Theme/AnswearInputTheme.xaml"/>
                 <ResourceDictionary Source="Theme/AnswerButtonTheme.xaml"/>
+                <ResourceDictionary Source="Theme/NavigationButtons.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
