@@ -24,6 +24,9 @@
     <Page Update="Theme\AnswearInputTheme.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Theme\AnswerButtonTheme.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Theme\MenuButtons.xaml">
       <SubType>Designer</SubType>
     </Page>

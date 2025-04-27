@@ -10,6 +10,7 @@
                 <ResourceDictionary Source="Theme/NextButton.xaml"/>
                 <ResourceDictionary Source="Theme/QuestionInputTheme.xaml"/>
                 <ResourceDictionary Source="Theme/AnswearInputTheme.xaml"/>
+                <ResourceDictionary Source="Theme/AnswerButtonTheme.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
