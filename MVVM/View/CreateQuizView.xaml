@@ -17,23 +17,23 @@
             <RowDefinition Height="2*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
-            <TextBox x:Name="QuestionInput" Text="{Binding Question}"
+        <TextBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding Question}"
                  Margin="40,30,0,30" Style="{StaticResource QuestionInputTheme}"/>
-            <TextBlock Text="{Binding QuestionId}"/>
+        <Border Grid.ColumnSpan="2" Style="{StaticResource QuestionIdBorderTheme}" HorizontalAlignment="Right" VerticalAlignment="Top">
+            <TextBlock Grid.ColumnSpan="2" Text="{Binding QuestionView}" FontSize="20"/>
+        </Border>
 
-        </StackPanel>
         <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center">
-            <TextBox x:Name="Answear1Input" Text="{Binding Answers[0]}" Style="{StaticResource AnswearInputTheme}"/>
             <ToggleButton IsChecked="{Binding Checked[0]}" VerticalAlignment="Center" Margin="10" Style="{StaticResource AnswerButtonTheme}"/>
+            <TextBox x:Name="Answear1Input" Text="{Binding Answers[0]}" Style="{StaticResource AnswearInputTheme}"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center">
             <TextBox x:Name="Answear2Input" Text="{Binding Answers[1]}" Style="{StaticResource AnswearInputTheme}"/>
             <ToggleButton IsChecked="{Binding Checked[1]}" VerticalAlignment="Center" Margin="10" Style="{StaticResource AnswerButtonTheme}"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center">
-            <TextBox x:Name="Answear3Input" Text="{Binding Answers[2]}" Style="{StaticResource AnswearInputTheme}"/>
             <ToggleButton IsChecked="{Binding Checked[2]}" VerticalAlignment="Center" Margin="10" Style="{StaticResource AnswerButtonTheme}"/>
+            <TextBox x:Name="Answear3Input" Text="{Binding Answers[2]}" Style="{StaticResource AnswearInputTheme}"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Center">
             <TextBox x:Name="Answear4Input" Text="{Binding Answers[3]}" Style="{StaticResource AnswearInputTheme}"/>
@@ -41,9 +41,11 @@
         </StackPanel>
         <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"
                     HorizontalAlignment="Center">
-            <Button Style="{StaticResource NavigationButton}" Content="&lt;-" Command="{Binding Previous}"/>
-            <Button Style="{StaticResource NavigationButton}" Content="Dodaj" Command="{Binding Add}"/>
-            <Button Style="{StaticResource NavigationButton}" Content="->" Command="{Binding Next}"/>
+            <Button Style="{StaticResource NavigationButton}" Content="&lt;-" Command="{Binding Previous}" IsEnabled="{Binding CanGoPrevious}"/>
+            <Button Style="{StaticResource NavigationButton}" Content="Dodaj" Command="{Binding Add}" IsEnabled="{Binding CanAddNewQuestion}"/>
+            <Button Style="{StaticResource NavigationButton}" Content="Stwórz nowe" Command="{Binding NewQuestion}"/>
+            <Button Style="{StaticResource NavigationButton}" Content="Usuń" Command="{Binding Delete}"/>
+            <Button Style="{StaticResource NavigationButton}" Content="->" Command="{Binding Next}" IsEnabled="{Binding CanGoNext}"/>
         </StackPanel>
 
 

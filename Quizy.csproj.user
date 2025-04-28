@@ -33,6 +33,9 @@
     <Page Update="Theme\NavigationButtons.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Theme\QuestionIdTheme.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Theme\QuestionInputTheme.xaml">
       <SubType>Designer</SubType>
     </Page>

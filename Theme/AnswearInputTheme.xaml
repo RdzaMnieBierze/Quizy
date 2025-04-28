@@ -6,7 +6,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TextBox}">
                     <Border CornerRadius="10"
-                            HorizontalAlignment="Center" Width="350" Height="80">
+                            HorizontalAlignment="Center" Width="330" Height="80">
                         <Border.Background>
                             <LinearGradientBrush StartPoint="0,0" EndPoint="1,2">
                                 <GradientStop Color="#9EC5E5" Offset="0.0"/>
@@ -20,6 +20,8 @@
                                      BorderThickness="0"
                                      Background="Transparent"
                                      VerticalContentAlignment="Center"
+                                     HorizontalContentAlignment="Center"
+                                     TextWrapping="Wrap"
                                      Padding="5"
                                      FontSize="18"
                                      Foreground="Black"

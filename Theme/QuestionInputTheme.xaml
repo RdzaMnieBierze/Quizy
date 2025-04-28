@@ -20,6 +20,8 @@
                                  BorderThickness="0"
                                  Background="Transparent"
                                  VerticalContentAlignment="Center"
+                                 HorizontalContentAlignment="Center"
+                                 TextWrapping="Wrap"
                                  Padding="5"
                                  FontSize="18"
                                  Foreground="Black"

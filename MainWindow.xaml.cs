@@ -6,8 +6,9 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Quizy.Core;
+using Quizy.MVVM.Viewmodel;
 
 namespace Quizy
 {
@@ -19,6 +20,7 @@ namespace Quizy
         public MainWindow()
         {
             InitializeComponent();
+            DataContext = new MainViewModel(new NavigationService());
         }
     }
 }

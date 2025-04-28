@@ -10,10 +10,14 @@
         WindowStyle="None"
         Background="Transparent"
         AllowsTransparency="True">
-
-    <Window.DataContext>
-        <viewModel:MainViewModel/>
-    </Window.DataContext>
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type viewModel:CreateViewModel}">
+            <view:CreateQuizView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:SolveViewModel}">
+            <view:SolveQuizView/>
+        </DataTemplate>
+    </Window.Resources>
 
     <Border CornerRadius="20" BorderThickness="2" BorderBrush="Black">
         <Border.Background>
@@ -50,13 +54,13 @@
             </Border>
 
             <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Vertical" VerticalAlignment="Center">
-                <RadioButton Content="Rozpocznij" Style="{StaticResource MenuButtonTheme}"/>
-                <RadioButton Content="Stwórz" Style="{StaticResource MenuButtonTheme}"/>
+                <RadioButton Content="Rozpocznij" Style="{StaticResource MenuButtonTheme}" Command="{Binding NavigateSolve}"/>
+                <RadioButton Content="Stwórz" Style="{StaticResource MenuButtonTheme}" Command="{Binding NavigateCreate}"/>
                 <RadioButton Content="Wczytaj" Style="{StaticResource MenuButtonTheme}"/>
                 <RadioButton Content="Edytuj" Style="{StaticResource MenuButtonTheme}"/>
             </StackPanel>
 
-            <view:CreateQuizView Grid.Column="1" Grid.Row="1"/>
+            <ContentControl Content="{Binding CurrentViewModel}" Grid.Column="1" Grid.Row="1"/>
 
 
         </Grid>

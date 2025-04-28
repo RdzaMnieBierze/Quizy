@@ -10,10 +10,15 @@ namespace Quizy.MVVM.Viewmodel
 {
     class CreateViewModel : ViewModelBase
     {
-        private static Quiz? CurrentQuiz;
+        private Quiz? CurrentQuiz;
         public RelayCommand Add => new RelayCommand(execute => AddQuestion());
+        public bool CanAddNewQuestion => QuestionId >= (CurrentQuiz?.Count ?? 0);
         public RelayCommand Previous => new RelayCommand(execute => PreviousQuestion());
         public RelayCommand Next => new RelayCommand(execute => NextQuestion());
+        public RelayCommand NewQuestion => new RelayCommand(execute => CreateNewQuestion());
+        public RelayCommand Delete => new RelayCommand(execute => DeleteQuestion());
+        public bool CanGoPrevious => QuestionId > 0;
+        public bool CanGoNext => CurrentQuiz != null && QuestionId < CurrentQuiz.Count - 1;
         public int QuizLenght => CurrentQuiz?.Count ?? 0;
         private int _questionId = 0;
         public int QuestionId
@@ -55,27 +60,69 @@ namespace Quizy.MVVM.Viewmodel
                 OnPropertyChanged(nameof(Checked));
             }
         }
+        public string QuestionView
+        {
+            get => (_questionId + 1).ToString() + " / " + (CurrentQuiz.Count).ToString();
+            set
+            {
+                OnPropertyChanged(nameof(QuestionView));
+            }
+        }
         public CreateViewModel()
         {
             if (CurrentQuiz == null)
                 CurrentQuiz = new Quiz();
         }
+        private void SaveCurrentQuestion()
+        {
+            if (CurrentQuiz == null)
+                return;
+
+            if (QuestionId < CurrentQuiz.Count)
+            {
+                for (int i = 0; i < Answers.Length; i++)
+                {
+                    CurrentQuiz[QuestionId][i].Content = Answers[i];
+                    CurrentQuiz[QuestionId][i].isCorrect = Checked[i];
+                }
+            }
+            else
+            {
+                CurrentQuiz.Add(new Model.Question(Answers, Checked, Question));
+            }
+
+        }
+        private void CreateNewQuestion()
+        {
+            Clear();
+            QuestionId = CurrentQuiz?.Count ?? 0;
+            OnPropertyChanged(nameof(QuestionId));
+            OnPropertyChanged(nameof(QuestionView));
+        }
         private void AddQuestion()
         {
             if (CurrentQuiz == null)
                 return;
+
             if (QuestionId < CurrentQuiz.Count)
             {
-                MessageBox.Show("To pytanie już istnieje. Przejdź na koniec quizu, aby dodać nowe pytanie.", "Uwaga", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
+                SaveCurrentQuestion();
+                MessageBox.Show("Zapisano zmiany w istniejącym pytaniu.", "Informacja", MessageBoxButton.OK, MessageBoxImage.Information);
             }
-            CurrentQuiz?.Add(new Model.Question(Answers, Checked, Question));
-            MessageBox.Show(Question + Answers[0] + Checked[0] + Answers[1] + Checked[1]);
-            Clear();
+            else
+            {
+                CurrentQuiz.Add(new Model.Question(Answers, Checked, Question));
+                MessageBox.Show("Dodano nowe pytanie.", "Informacja", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
 
+            Clear();
             QuestionId = CurrentQuiz.Count;
-            OnPropertyChanged(nameof(QuestionId));
             OnPropertyChanged(nameof(QuizLenght));
+            OnPropertyChanged(nameof(QuestionId));
+            OnPropertyChanged(nameof(QuestionView));
+            OnPropertyChanged(nameof(CanAddNewQuestion));
+            OnPropertyChanged(nameof(CanGoPrevious));
+            OnPropertyChanged(nameof(CanGoNext));
         }
         private void Clear()
         {
@@ -110,28 +157,62 @@ namespace Quizy.MVVM.Viewmodel
             OnPropertyChanged(nameof(Answers));
             OnPropertyChanged(nameof(Checked));
             OnPropertyChanged(nameof(QuestionId));
+            OnPropertyChanged(nameof(QuestionView));
             OnPropertyChanged(nameof(QuizLenght));
+            OnPropertyChanged(nameof(CanGoPrevious));
+            OnPropertyChanged(nameof(CanGoNext));
         }
         private void PreviousQuestion()
         {
-            if (CurrentQuiz == null || CurrentQuiz.Count == 0)
-                return;
-
-            if (QuestionId > 0)
+            if (CanGoPrevious)
             {
                 QuestionId--;
                 LoadQuestion(QuestionId);
             }
+            OnPropertyChanged(nameof(CanGoPrevious));
+            OnPropertyChanged(nameof(CanGoNext));
         }
         private void NextQuestion()
+        {
+            if (CanGoNext)
+            {
+                QuestionId++;
+                LoadQuestion(QuestionId);
+            }
+            OnPropertyChanged(nameof(CanGoPrevious));
+            OnPropertyChanged(nameof(CanGoNext));
+        }
+        private void DeleteQuestion()
         {
             if (CurrentQuiz == null || CurrentQuiz.Count == 0)
                 return;
 
-            if (QuestionId < CurrentQuiz.Count - 1)
+            if (QuestionId >= 0 && QuestionId < CurrentQuiz.Count)
             {
-                QuestionId++;
-                LoadQuestion(QuestionId);
+                CurrentQuiz.RemoveAt(QuestionId);
+                MessageBox.Show("Pytanie zostało usunięte.", "Informacja", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                if (QuestionId >= CurrentQuiz.Count)
+                {
+                    QuestionId = CurrentQuiz.Count - 1;
+                }
+
+                if (CurrentQuiz.Count > 0 && QuestionId >= 0)
+                {
+                    LoadQuestion(QuestionId);
+                }
+                else
+                {
+                    Clear();
+                    QuestionId = 0;
+                }
+
+                OnPropertyChanged(nameof(QuizLenght));
+                OnPropertyChanged(nameof(CanAddNewQuestion));
+                OnPropertyChanged(nameof(CanGoPrevious));
+                OnPropertyChanged(nameof(CanGoNext));
+                OnPropertyChanged(nameof(QuestionId));
+                OnPropertyChanged(nameof(QuestionView));
             }
         }
     }
