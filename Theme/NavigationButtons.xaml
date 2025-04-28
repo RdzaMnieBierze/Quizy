@@ -17,7 +17,7 @@
 
                         <TextBlock Text="{TemplateBinding Content}"
                                    FontFamily="Resource/#Poppins"
-                                   FontSize="18"
+                                   FontSize="16"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"/>
                     </Border>

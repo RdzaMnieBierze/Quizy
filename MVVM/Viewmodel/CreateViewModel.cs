@@ -2,9 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 using Quizy.MVVM.Model;
+using System.Text.Json;
+using System.IO;
 
 namespace Quizy.MVVM.Viewmodel
 {
@@ -19,6 +23,9 @@ namespace Quizy.MVVM.Viewmodel
         public RelayCommand Delete => new RelayCommand(execute => DeleteQuestion());
         public bool CanGoPrevious => QuestionId > 0;
         public bool CanGoNext => CurrentQuiz != null && QuestionId < CurrentQuiz.Count - 1;
+        public ICommand SaveQuizModeCommand { get; }
+        public ICommand SaveQuizCommand { get; }
+        public ICommand CancelSaveCommand { get; }
         public int QuizLenght => CurrentQuiz?.Count ?? 0;
         private int _questionId = 0;
         public int QuestionId
@@ -68,10 +75,52 @@ namespace Quizy.MVVM.Viewmodel
                 OnPropertyChanged(nameof(QuestionView));
             }
         }
+        private bool _isSavingMode;
+        public bool IsSavingMode
+        {
+            get => _isSavingMode;
+            set
+            {
+                _isSavingMode = value;
+                OnPropertyChanged(nameof(IsSavingMode));
+            }
+        }
+
+        private string _quizName;
+        public string QuizName
+        {
+            get => _quizName;
+            set
+            {
+                _quizName = value;
+                OnPropertyChanged(nameof(QuizName));
+            }
+        }
         public CreateViewModel()
         {
             if (CurrentQuiz == null)
                 CurrentQuiz = new Quiz();
+            SaveQuizModeCommand = new RelayCommand(_ => IsSavingMode = true);
+            SaveQuizCommand = new RelayCommand(_ => SaveQuiz());
+            CancelSaveCommand = new RelayCommand(_ => IsSavingMode = false);
+        }
+        private void SaveQuiz()
+        {
+            if (CurrentQuiz == null)
+                return;
+
+            CurrentQuiz.Name = QuizName;
+
+            string json = JsonSerializer.Serialize(CurrentQuiz, new JsonSerializerOptions
+            {
+                WriteIndented = true
+            });
+
+            string fileName = $"{QuizName}.json";
+
+            File.WriteAllText(fileName, json);
+
+            IsSavingMode = false;
         }
         private void SaveCurrentQuestion()
         {

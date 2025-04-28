@@ -23,7 +23,7 @@
                                      HorizontalContentAlignment="Center"
                                      TextWrapping="Wrap"
                                      Padding="5"
-                                     FontSize="18"
+                                     FontSize="24"
                                      Foreground="Black"
                                      x:Name="AnswearInput"
                                      FontFamily="/Resource/#Poppins"/>

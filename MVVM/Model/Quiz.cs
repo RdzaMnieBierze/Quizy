@@ -12,6 +12,7 @@ namespace Quizy.MVVM.Model
     {
         int QuestionsLenght = 0;
         double score = 0;
+        public string Name;
 
         public void AddQuestion() { }
         void RemoveQuestion() { }
