@@ -22,8 +22,8 @@
     <Border CornerRadius="20" BorderThickness="2" BorderBrush="Black">
         <Border.Background>
             <LinearGradientBrush StartPoint="0,0" EndPoint="1,2">
-                <GradientStop Color="#F2EECB" Offset="0.0"/>
-                <GradientStop Color="#7FC8F8" Offset="1.0"/>
+                <GradientStop Color="#FFDD33" Offset="0.0"/>
+                <GradientStop Color="#BD82ED" Offset="1.0"/>
             </LinearGradientBrush>
         </Border.Background>
     

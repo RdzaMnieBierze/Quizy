@@ -24,6 +24,9 @@
     <Page Update="Theme\AnswearInputTheme.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Theme\Answer1SolveTheme.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Theme\AnswerButtonTheme.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -37,6 +40,12 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Theme\QuestionInputTheme.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Theme\SaveBackButtonTheme.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Theme\SaveQuestionNameInputTheme.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

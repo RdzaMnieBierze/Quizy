@@ -14,6 +14,10 @@
                 <ResourceDictionary Source="Theme/AnswerButtonTheme.xaml"/>
                 <ResourceDictionary Source="Theme/NavigationButtons.xaml"/>
                 <ResourceDictionary Source="Theme/QuestionIdTheme.xaml"/>
+                <ResourceDictionary Source="Theme/SaveQuestionNameInputTheme.xaml"/>
+                <ResourceDictionary Source="Theme/SaveBackButtonTheme.xaml"/>
+
+                <ResourceDictionary Source="Theme/Answer1SolveTheme.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <core:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
             <core:InverseBooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter"/>

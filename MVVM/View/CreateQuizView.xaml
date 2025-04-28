@@ -54,7 +54,7 @@
 
         <Grid Visibility="{Binding IsSavingMode, Converter={StaticResource BooleanToVisibilityConverter}}">
             <Grid.RowDefinitions>
-                <RowDefinition Height="3*"/>
+                <RowDefinition Height="2.5*"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
@@ -63,10 +63,10 @@
             </Grid.ColumnDefinitions>
             
             <TextBox Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0"
-                Text="{Binding QuizName}" Style="{StaticResource QuestionInputTheme}"/>
+                Text="{Binding QuizName}" Style="{StaticResource QuizNameInputTheme}"/>
 
-            <Button Grid.Column="0" Grid.Row="1" Style="{StaticResource NavigationButton}" Content="Zapisz" Command="{Binding SaveQuizCommand}"/>
-            <Button Grid.Column="1" Grid.Row="1" Style="{StaticResource NavigationButton}" Content="Wróć do edycji" Command="{Binding CancelSaveCommand}"/>
+            <Button Grid.Column="0" Grid.Row="1" Style="{StaticResource SaveBackButton}" Content="Zapisz" Command="{Binding SaveQuizCommand}" HorizontalAlignment="Right"/>
+            <Button Grid.Column="1" Grid.Row="1" Style="{StaticResource SaveBackButton}" Content="Wróć do edycji" Command="{Binding CancelSaveCommand}" HorizontalAlignment="Left"/>
         </Grid>
 
 
