@@ -20,12 +20,12 @@
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
 
-        <ToggleButton Content="{Binding Answer1}" Style="{StaticResource Answer1SolveButtonTheme}" Grid.Column="0" Grid.Row="1"/>
-        <ToggleButton Content="{Binding Answer2}" Style="{StaticResource Answer1SolveButtonTheme}" Grid.Column="1" Grid.Row="1"/>
-        <ToggleButton Content="{Binding Answer3}" Style="{StaticResource Answer1SolveButtonTheme}" Grid.Column="0" Grid.Row="2"/>
-        <ToggleButton Content="{Binding Answer4}" Style="{StaticResource Answer1SolveButtonTheme}" Grid.Column="1" Grid.Row="2"/>
+        <ToggleButton Content="{Binding Answer1}" Style="{StaticResource Answer1SolveButtonTheme}"   IsChecked="{Binding SelectedAnswerIndex, Converter={StaticResource Converter}, ConverterParameter=0, Mode=TwoWay}" Grid.Column="0" Grid.Row="1"/>
+        <ToggleButton Content="{Binding Answer2}" Style="{StaticResource Answer1SolveButtonTheme}" IsChecked="{Binding SelectedAnswerIndex, Converter={StaticResource Converter}, ConverterParameter=1, Mode=TwoWay}" Grid.Column="1" Grid.Row="1"/>
+        <ToggleButton Content="{Binding Answer3}" Style="{StaticResource Answer1SolveButtonTheme}" IsChecked="{Binding SelectedAnswerIndex, Converter={StaticResource Converter}, ConverterParameter=2, Mode=TwoWay}" Grid.Column="0" Grid.Row="2"/>
+        <ToggleButton Content="{Binding Answer4}" Style="{StaticResource Answer1SolveButtonTheme}"  IsChecked="{Binding SelectedAnswerIndex, Converter={StaticResource Converter}, ConverterParameter=3, Mode=TwoWay}" Grid.Column="1" Grid.Row="2"/>
         
-        <Button Command="{Binding NextQuestion}"
+        <Button Command="{Binding NextQuestionCommand}"
             Content="->" Grid.Column="1" Grid.Row="3" Style="{StaticResource NextButton}"/>
 
         <TextBlock Text="{Binding Question}" FontSize="20" VerticalAlignment="Stretch" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"/>

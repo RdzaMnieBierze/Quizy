@@ -10,12 +10,8 @@ namespace Quizy.MVVM.Model
 {
     public class Quiz: ObservableCollection<Question>
     {
-        int QuestionsLenght = 0;
-        double score = 0;
+        public double score = 0;
         public string Name;
 
-        public void AddQuestion() { }
-        void RemoveQuestion() { }
-        void EditQuestion() { }
     }
 }
