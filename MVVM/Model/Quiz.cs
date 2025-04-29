@@ -13,5 +13,8 @@ namespace Quizy.MVVM.Model
         public double score = 0;
         public string Name;
 
+        public Quiz()
+        { }
     }
+
 }

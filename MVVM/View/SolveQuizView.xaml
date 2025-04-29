@@ -7,6 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
+    <Grid Visibility="{Binding IsResult, Converter={StaticResource InverseBooleanToVisibilityConverter}}">
         
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -20,14 +21,62 @@
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
 
-        <ToggleButton Content="{Binding Answer1}" Style="{StaticResource Answer1SolveButtonTheme}"   IsChecked="{Binding SelectedAnswerIndex, Converter={StaticResource Converter}, ConverterParameter=0, Mode=TwoWay}" Grid.Column="0" Grid.Row="1"/>
-        <ToggleButton Content="{Binding Answer2}" Style="{StaticResource Answer1SolveButtonTheme}" IsChecked="{Binding SelectedAnswerIndex, Converter={StaticResource Converter}, ConverterParameter=1, Mode=TwoWay}" Grid.Column="1" Grid.Row="1"/>
-        <ToggleButton Content="{Binding Answer3}" Style="{StaticResource Answer1SolveButtonTheme}" IsChecked="{Binding SelectedAnswerIndex, Converter={StaticResource Converter}, ConverterParameter=2, Mode=TwoWay}" Grid.Column="0" Grid.Row="2"/>
-        <ToggleButton Content="{Binding Answer4}" Style="{StaticResource Answer1SolveButtonTheme}"  IsChecked="{Binding SelectedAnswerIndex, Converter={StaticResource Converter}, ConverterParameter=3, Mode=TwoWay}" Grid.Column="1" Grid.Row="2"/>
+        <ToggleButton Content="{Binding Answer1}" Style="{StaticResource Answer1SolveButtonTheme}"  IsChecked="{Binding IsAnswer1Selected}" Grid.Column="0" Grid.Row="1"/>
+        <ToggleButton Content="{Binding Answer2}" Style="{StaticResource Answer1SolveButtonTheme}" IsChecked="{Binding IsAnswer2Selected}" Grid.Column="1" Grid.Row="1"/>
+        <ToggleButton Content="{Binding Answer3}" Style="{StaticResource Answer1SolveButtonTheme}" IsChecked="{Binding IsAnswer3Selected}" Grid.Column="0" Grid.Row="2"/>
+        <ToggleButton Content="{Binding Answer4}" Style="{StaticResource Answer1SolveButtonTheme}"  IsChecked="{Binding IsAnswer4Selected}" Grid.Column="1" Grid.Row="2"/>
         
-        <Button Command="{Binding NextQuestionCommand}"
-            Content="->" Grid.Column="1" Grid.Row="3" Style="{StaticResource NextButton}"/>
+       
 
-        <TextBlock Text="{Binding Question}" FontSize="20" VerticalAlignment="Stretch" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"/>
+        <TextBlock Text="{Binding Question}" FontSize="40" TextAlignment="Center" VerticalAlignment="Stretch" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"/>
+        <TextBlock Text="{Binding Timer}" FontSize="30" TextAlignment="Center" VerticalAlignment="Stretch" Grid.Row="3" Grid.Column="0"/>
+
+        <Grid Grid.Row="3" Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button Command="{Binding NextQuestionCommand}" Content="->" Grid.Column="1" Style="{StaticResource NextButton}"/>
+            <Button Command="{Binding EndQuizCommand}" Content="Zakończ" Grid.Column="0" Style="{StaticResource NextButton}"/>
+        </Grid>
+
+       
+    </Grid>
+        <Grid Visibility="{Binding IsResult, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="5*"/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="{Binding Result}" FontSize="30" TextAlignment="Center" VerticalAlignment="Stretch"/>
+
+            <ListBox Grid.Row="1" Margin="10"  ItemsSource="{Binding Questions}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Margin="5">
+                            <!-- Treść pytania -->
+                            <TextBlock FontWeight="Bold"
+                           Text="{Binding Content}" />
+
+                            <!-- Poprawne odpowiedzi -->
+                            <ItemsControl>
+                                <ItemsControl.ItemsSource>
+                                    <Binding Converter="{StaticResource CorrectAnswersConverter}" />
+                                </ItemsControl.ItemsSource>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock>
+                                <Run Text="• " />
+                                <Run Text="{Binding Content}" />
+                                        </TextBlock>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+        </Grid>
+        
     </Grid>
 </UserControl>

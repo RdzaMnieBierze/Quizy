@@ -22,6 +22,7 @@
             <core:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
             <core:InverseBooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter"/>
             <core:Converter x:Key="Converter"/>
+            <core:CorrectAnswersConverter x:Key="CorrectAnswersConverter"/>
 
         </ResourceDictionary>
     </Application.Resources>
