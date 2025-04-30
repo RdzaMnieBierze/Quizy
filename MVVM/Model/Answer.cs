@@ -10,8 +10,9 @@ namespace Quizy.MVVM.Model
     {
         private string _content;
         public string Content { get { return _content; } set { _content = value; } }
-        public bool isCorrect;
+        public bool isCorrect {  get; set; }
 
+        public Answer() { }
         public Answer(string content, bool isCorrect)
         {
             Content = content;

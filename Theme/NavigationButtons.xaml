@@ -7,7 +7,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
                     <Border CornerRadius="15"
-                    Margin="10" Width="122">
+                    Margin="10" Width="108">
                         <Border.Background>
                             <LinearGradientBrush StartPoint="0,0" EndPoint="1,2">
                                 <GradientStop Color="#9EC5E5" Offset="0.0"/>

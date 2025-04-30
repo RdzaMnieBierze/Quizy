@@ -81,10 +81,10 @@ namespace Quizy.MVVM.Viewmodel
 
 
         public string Question => _currentQuestion.Content;
-        public string Answer1 => _currentQuestion[0].Content;
-        public string Answer2 => _currentQuestion[1].Content;
-        public string Answer3 => _currentQuestion[2].Content;
-        public string Answer4 => _currentQuestion[3].Content;
+        public string Answer1 => _currentQuestion.Answers[0].Content;
+        public string Answer2 => _currentQuestion.Answers[1].Content;
+        public string Answer3 => _currentQuestion.Answers[2].Content;
+        public string Answer4 => _currentQuestion.Answers[3].Content;
 
         public Quiz Questions => _quiz;
 
@@ -100,7 +100,7 @@ namespace Quizy.MVVM.Viewmodel
 
         private bool CanExecuteNextQuestionCommand(object obj)
         {
-            if (_currentQuestionIndex >= _quiz.Count)
+            if (_currentQuestionIndex >= _quiz.Questions.Count)
                 return false;
             return SelectedAnswers.Any();
         }
@@ -116,7 +116,7 @@ namespace Quizy.MVVM.Viewmodel
             OnPropertyChanged(nameof(Questions));
         }
 
-        public string Result => _quiz.score.ToString() + " / " + _quiz.Count.ToString() + " (" + Math.Round(_quiz.score / _quiz.Count * 100, 2).ToString() + "%)";
+        public string Result => _quiz.score.ToString() + " / " + _quiz.Questions.Count.ToString() + " (" + Math.Round(_quiz.score / _quiz.Questions.Count * 100, 2).ToString() + "%)";
 
 
 
@@ -166,8 +166,8 @@ namespace Quizy.MVVM.Viewmodel
             EndQuizCommand = new RelayCommand(ExecuteEndQuizCommand);
             ReadQuizCommand = new RelayCommand(ReadQuiz);
 
-            _quiz.Add(new Question(new string[] { "Paris", "Berlin", "Madrid", "Warsaw" }, new bool[] { false, false, false, true }, "What is the capital of Poland"));
-            _quiz.Add(new Question(new string[] { "Orange", "Yellow", "Blue", "White" }, new bool[] { true, true, false, false }, "What color is orange"));
+            _quiz.Questions.Add(new Question(new string[] { "Paris", "Berlin", "Madrid", "Warsaw" }, new bool[] { false, false, false, true }, "What is the capital of Poland"));
+            _quiz.Questions.Add(new Question(new string[] { "Orange", "Yellow", "Blue", "White" }, new bool[] { true, true, false, false }, "What color is orange"));
 
             LoadCurrentQuestion();
 
@@ -182,7 +182,7 @@ namespace Quizy.MVVM.Viewmodel
 
         private void LoadCurrentQuestion()
         {
-            _currentQuestion = _quiz[_currentQuestionIndex];
+            _currentQuestion = _quiz.Questions[_currentQuestionIndex];
             SelectedAnswers.Clear();
 
 
@@ -210,19 +210,19 @@ namespace Quizy.MVVM.Viewmodel
             double _tmp_score = 0;
             int _nbAnswers = 0;
 
-            for (int i = 0; i < _currentQuestion.Count; i++)
+            for (int i = 0; i < _currentQuestion.Answers.Count; i++)
             {
-                if (_currentQuestion[i].isCorrect)
+                if (_currentQuestion.Answers[i].isCorrect)
                 {
                     _nbAnswers++;
                 }
 
             }
-            for (int i =0; i< _currentQuestion.Count; i++)
+            for (int i =0; i< _currentQuestion.Answers.Count; i++)
             {
                 if (SelectedAnswers.Contains(i))
                 {
-                    if (_currentQuestion[i].isCorrect)
+                    if (_currentQuestion.Answers[i].isCorrect)
                     {
                         _tmp_score++;
                     }
@@ -234,7 +234,7 @@ namespace Quizy.MVVM.Viewmodel
             _currentQuestionIndex++;
      
 
-            if (_currentQuestionIndex < _quiz.Count)
+            if (_currentQuestionIndex < _quiz.Questions.Count)
             {
                 LoadCurrentQuestion();
             }

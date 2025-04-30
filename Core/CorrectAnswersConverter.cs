@@ -17,7 +17,7 @@ namespace Quizy.Core
             if (question == null)
                 return null;
 
-            return question.Where(a => a.isCorrect).ToList(); // filtruj poprawne
+            return question.Answers.Where(a => a.isCorrect).ToList(); // filtruj poprawne
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

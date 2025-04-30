@@ -16,17 +16,17 @@ namespace Quizy.MVVM.Viewmodel
     {
         private Quiz? CurrentQuiz;
         public RelayCommand Add => new RelayCommand(execute => AddQuestion());
-        public bool CanAddNewQuestion => QuestionId >= (CurrentQuiz?.Count ?? 0);
+        public bool CanAddNewQuestion => QuestionId >= (CurrentQuiz?.Questions.Count ?? 0);
         public RelayCommand Previous => new RelayCommand(execute => PreviousQuestion());
         public RelayCommand Next => new RelayCommand(execute => NextQuestion());
         public RelayCommand NewQuestion => new RelayCommand(execute => CreateNewQuestion());
         public RelayCommand Delete => new RelayCommand(execute => DeleteQuestion());
         public bool CanGoPrevious => QuestionId > 0;
-        public bool CanGoNext => CurrentQuiz != null && QuestionId < CurrentQuiz.Count - 1;
+        public bool CanGoNext => CurrentQuiz != null && QuestionId < CurrentQuiz.Questions.Count - 1;
         public ICommand SaveQuizModeCommand { get; }
         public ICommand SaveQuizCommand { get; }
         public ICommand CancelSaveCommand { get; }
-        public int QuizLenght => CurrentQuiz?.Count ?? 0;
+        public int QuizLenght => CurrentQuiz?.Questions.Count ?? 0;
         private int _questionId = 0;
         public int QuestionId
         {
@@ -69,7 +69,7 @@ namespace Quizy.MVVM.Viewmodel
         }
         public string QuestionView
         {
-            get => (_questionId + 1).ToString() + " / " + (CurrentQuiz.Count).ToString();
+            get => (_questionId + 1).ToString() + " / " + (CurrentQuiz.Questions.Count).ToString();
             set
             {
                 OnPropertyChanged(nameof(QuestionView));
@@ -111,40 +111,77 @@ namespace Quizy.MVVM.Viewmodel
 
             CurrentQuiz.Name = QuizName;
 
-            string json = JsonSerializer.Serialize(CurrentQuiz, new JsonSerializerOptions
+            var saveFileDialog = new Microsoft.Win32.SaveFileDialog
             {
-                WriteIndented = true
-            });
+                FileName = QuizName,
+                DefaultExt = ".json",
+                Filter = "Pliki JSON (*.json)|*.json|Wszystkie pliki (*.*)|*.*"
+            };
 
-            string fileName = $"{QuizName}.json";
+            bool? result = saveFileDialog.ShowDialog();
 
-            File.WriteAllText(fileName, json);
+            if (result == true)
+            {
+                string filePath = saveFileDialog.FileName;
 
-            IsSavingMode = false;
+                string json = JsonSerializer.Serialize(CurrentQuiz, new JsonSerializerOptions
+                {
+                    WriteIndented = true
+                });
+
+                try
+                {
+                    File.WriteAllText(filePath, json);
+                    MessageBox.Show("Quiz zapisano pomyślnie!", "Sukces", MessageBoxButton.OK, MessageBoxImage.Information);
+                    IsSavingMode = false;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Wystąpił błąd podczas zapisu pliku:\n{ex.Message}", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
+
+        private bool CheckQuestion()
+        {
+            if (Question == string.Empty)
+            {
+                return false;
+            }
+            for (int i = 0; i < Answers.Length; i++)
+            {
+                if (Answers[i] == string.Empty) return false;
+            }
+            for (int i = 0; i < Checked.Length; i++)
+            {
+                if (Checked[i] == true) return true;
+            }
+            return false;
         }
         private void SaveCurrentQuestion()
         {
             if (CurrentQuiz == null)
                 return;
 
-            if (QuestionId < CurrentQuiz.Count)
+            if (QuestionId < CurrentQuiz.Questions.Count)
             {
                 for (int i = 0; i < Answers.Length; i++)
                 {
-                    CurrentQuiz[QuestionId][i].Content = Answers[i];
-                    CurrentQuiz[QuestionId][i].isCorrect = Checked[i];
+                    CurrentQuiz.Questions[QuestionId].Answers[i].Content = Answers[i];
+                    CurrentQuiz.Questions[QuestionId].Answers[i].isCorrect = Checked[i];
                 }
+                CurrentQuiz.Questions[QuestionId].Content = Question;
             }
             else
             {
-                CurrentQuiz.Add(new Model.Question(Answers, Checked, Question));
+                CurrentQuiz.Questions.Add(new Model.Question(Answers, Checked, Question));
             }
 
         }
         private void CreateNewQuestion()
         {
             Clear();
-            QuestionId = CurrentQuiz?.Count ?? 0;
+            QuestionId = CurrentQuiz?.Questions.Count ?? 0;
             OnPropertyChanged(nameof(QuestionId));
             OnPropertyChanged(nameof(QuestionView));
         }
@@ -153,19 +190,25 @@ namespace Quizy.MVVM.Viewmodel
             if (CurrentQuiz == null)
                 return;
 
-            if (QuestionId < CurrentQuiz.Count)
+            if (!CheckQuestion())
+            {
+                MessageBox.Show("Nie można zapisać nie pełnego pytania.", "Informacja", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+
+            if (QuestionId < CurrentQuiz.Questions.Count)
             {
                 SaveCurrentQuestion();
                 MessageBox.Show("Zapisano zmiany w istniejącym pytaniu.", "Informacja", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             else
             {
-                CurrentQuiz.Add(new Model.Question(Answers, Checked, Question));
+                CurrentQuiz.Questions.Add(new Model.Question(Answers, Checked, Question));
                 MessageBox.Show("Dodano nowe pytanie.", "Informacja", MessageBoxButton.OK, MessageBoxImage.Information);
             }
 
             Clear();
-            QuestionId = CurrentQuiz.Count;
+            QuestionId = CurrentQuiz.Questions.Count;
             OnPropertyChanged(nameof(QuizLenght));
             OnPropertyChanged(nameof(QuestionId));
             OnPropertyChanged(nameof(QuestionView));
@@ -192,16 +235,16 @@ namespace Quizy.MVVM.Viewmodel
 
         private void LoadQuestion(int id)
         {
-            if (CurrentQuiz == null || id < 0 || id >= CurrentQuiz.Count)
+            if (CurrentQuiz == null || id < 0 || id >= CurrentQuiz.Questions.Count)
                 return;
 
 
-            for (int i = 0; i < CurrentQuiz?[QuestionId].Count; i++)
+            for (int i = 0; i < CurrentQuiz?.Questions[QuestionId].Answers.Count; i++)
             {
-                Answers[i] = CurrentQuiz[QuestionId][i].Content;
-                Checked[i] = CurrentQuiz[QuestionId][i].isCorrect;
+                Answers[i] = CurrentQuiz.Questions[QuestionId].Answers[i].Content;
+                Checked[i] = CurrentQuiz.Questions[QuestionId].Answers[i].isCorrect;
             }
-            Question = CurrentQuiz[QuestionId].Content;
+            Question = CurrentQuiz.Questions[QuestionId].Content;
             OnPropertyChanged(nameof(Question));
             OnPropertyChanged(nameof(Answers));
             OnPropertyChanged(nameof(Checked));
@@ -233,20 +276,20 @@ namespace Quizy.MVVM.Viewmodel
         }
         private void DeleteQuestion()
         {
-            if (CurrentQuiz == null || CurrentQuiz.Count == 0)
+            if (CurrentQuiz == null || CurrentQuiz.Questions.Count == 0)
                 return;
 
-            if (QuestionId >= 0 && QuestionId < CurrentQuiz.Count)
+            if (QuestionId >= 0 && QuestionId < CurrentQuiz.Questions.Count)
             {
-                CurrentQuiz.RemoveAt(QuestionId);
+                CurrentQuiz.Questions.RemoveAt(QuestionId);
                 MessageBox.Show("Pytanie zostało usunięte.", "Informacja", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                if (QuestionId >= CurrentQuiz.Count)
+                if (QuestionId >= CurrentQuiz.Questions.Count)
                 {
-                    QuestionId = CurrentQuiz.Count - 1;
+                    QuestionId = CurrentQuiz.Questions.Count - 1;
                 }
 
-                if (CurrentQuiz.Count > 0 && QuestionId >= 0)
+                if (CurrentQuiz.Questions.Count > 0 && QuestionId >= 0)
                 {
                     LoadQuestion(QuestionId);
                 }

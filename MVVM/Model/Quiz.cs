@@ -8,13 +8,12 @@ using System.Threading.Tasks;
 
 namespace Quizy.MVVM.Model
 {
-    public class Quiz: ObservableCollection<Question>
+    public class Quiz
     {
-        public double score = 0;
-        public string Name;
+        public double score { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public List<Question> Questions { get; set; } = new();
 
-        public Quiz()
-        { }
+        public Quiz() { }
     }
-
 }

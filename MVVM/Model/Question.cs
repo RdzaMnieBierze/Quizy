@@ -6,37 +6,38 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using System.Collections.Generic;
+
 namespace Quizy.MVVM.Model
 {
-    public class Question : ObservableCollection<Answer>
+    public class Question
     {
+        public string Content { get; set; }
+        public List<Answer> Answers { get; set; } = new();
 
+        public Question() { }
 
-        private string _content;
-        public string Content { get { return _content; } }
-        public Question(string[] ans, bool[] corr, string _content)
+        public Question(string[] ans, bool[] corr, string content)
         {
-            this._content = _content;
-
+            Content = content;
             for (int i = 0; i < ans.Length; i++)
             {
-                Add(new Answer(ans[i], corr[i]));
+                Answers.Add(new Answer(ans[i], corr[i]));
             }
         }
 
-
         public override string ToString()
-
         {
-            string tmp = Content+ "| poprawne odpowiedzi: ";
-            for (int i = 0; i < this.Count; i++)
+            string tmp = Content + " | poprawne odpowiedzi: ";
+            foreach (var ans in Answers)
             {
-                if (this[i].isCorrect)
+                if (ans.isCorrect)
                 {
-                    tmp+= this[i].Content + " ";
+                    tmp += ans.Content + " ";
                 }
             }
             return tmp;
         }
     }
 }
+
