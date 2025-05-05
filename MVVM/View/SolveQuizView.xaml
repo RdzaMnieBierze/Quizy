@@ -35,10 +35,12 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
             <Button Command="{Binding NextQuestionCommand}" Content="->" Grid.Column="1" Style="{StaticResource NextButton}"/>
-            <Button Command="{Binding EndQuizCommand}" Content="Zakończ" Grid.Column="0" Style="{StaticResource NextButton}"/>
-        </Grid>
+            <Button Command="{Binding EndQuizCommand}" Content="Zakończ" Grid.Column="2" Style="{StaticResource NextButton}"/>
+                <Button Command="{Binding ReadQuizCommand}" Content="Rozpocznij" Grid.Column="0" Style="{StaticResource NextButton}"/>
+            </Grid>
 
        
     </Grid>

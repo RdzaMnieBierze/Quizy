@@ -118,7 +118,20 @@ namespace Quizy.MVVM.Viewmodel
 
         public string Result => _quiz.score.ToString() + " / " + _quiz.Questions.Count.ToString() + " (" + Math.Round(_quiz.score / _quiz.Questions.Count * 100, 2).ToString() + "%)";
 
+        private bool _is_quiz_loaded = false;
 
+        public bool IsQuizLoaded => _is_quiz_loaded;
+
+        public void SetQuizLoaded(bool loaded)
+        {
+            _is_quiz_loaded = loaded;
+            OnPropertyChanged(nameof(IsQuizLoaded));
+        }
+
+        public bool CanEndQuizCommand(object obj)
+        {
+            return IsQuizLoaded;
+        }
 
 
         #endregion
@@ -143,40 +156,26 @@ namespace Quizy.MVVM.Viewmodel
 
 
         #endregion
-        public SolveViewModel(Quiz quiz)
-        {
-            _quiz = quiz;
-            LoadCurrentQuestion();
 
-            NextQuestionCommand = new RelayCommand(ExecuteNextQuestionCommand, CanExecuteNextQuestionCommand);
-            EndQuizCommand = new RelayCommand(ExecuteEndQuizCommand);
-            ReadQuizCommand = new RelayCommand(ReadQuiz);
-
-            _elapsedTime = TimeSpan.Zero;
-            _quizTimer = new System.Windows.Threading.DispatcherTimer();
-            _quizTimer.Interval = TimeSpan.FromSeconds(1);
-            _quizTimer.Tick += QuizTimer_Tick;
-            _quizTimer.Start();
-        }
         public SolveViewModel()
         {
             _quiz = new Quiz();
+            
            
             NextQuestionCommand = new RelayCommand(ExecuteNextQuestionCommand, CanExecuteNextQuestionCommand);
-            EndQuizCommand = new RelayCommand(ExecuteEndQuizCommand);
+            EndQuizCommand = new RelayCommand(ExecuteEndQuizCommand, CanEndQuizCommand);
             ReadQuizCommand = new RelayCommand(ReadQuiz);
 
-            _quiz.Questions.Add(new Question(new string[] { "Paris", "Berlin", "Madrid", "Warsaw" }, new bool[] { false, false, false, true }, "What is the capital of Poland"));
-            _quiz.Questions.Add(new Question(new string[] { "Orange", "Yellow", "Blue", "White" }, new bool[] { true, true, false, false }, "What color is orange"));
+            _quiz.Questions.Add(new Question(new string[] { "Odp 1", "Odp 2", "Odp 3", "Odp 4"}, new bool[] { false, false, false, true }, "Przykładowe pytanie"));
+     
 
             LoadCurrentQuestion();
 
             _elapsedTime = TimeSpan.Zero;
 
             _quizTimer = new System.Windows.Threading.DispatcherTimer();
-            _quizTimer.Interval = TimeSpan.FromSeconds(1);
-            _quizTimer.Tick += QuizTimer_Tick;
-            _quizTimer.Start();
+
+
         }
 
 
@@ -256,9 +255,33 @@ namespace Quizy.MVVM.Viewmodel
 
             if (openFileDialog.ShowDialog() == true)
             {
-                string json= File.ReadAllText(openFileDialog.FileName);
+                byte[] fileBytes = File.ReadAllBytes(openFileDialog.FileName);
+                byte[] key = new byte[16] {
+                        0x1F, 0xA2, 0x3C, 0x4B,
+                        0x5E, 0x67, 0x88, 0x9D,
+                        0xAB, 0xBC, 0xCD, 0xDE,
+                        0xEF, 0xF0, 0x12, 0x34
+                    };
+
+
+                byte[] iv = new byte[16] {
+                        0x00, 0x11, 0x22, 0x33,
+                        0x44, 0x55, 0x66, 0x77,
+                        0x88, 0x99, 0xAA, 0xBB,
+                        0xCC, 0xDD, 0xEE, 0xFF};
+
+                string json = AesEncryption.Decrypt(fileBytes, key, iv);
+
                 this._quiz = JsonSerializer.Deserialize<Quiz>(json);
                 MessageBox.Show("Plik wczytany pomyślnie!", "Sukces", MessageBoxButton.OK, MessageBoxImage.Information);
+                LoadCurrentQuestion();
+                
+                _quizTimer.Interval = TimeSpan.FromSeconds(1);
+                _quizTimer.Tick += QuizTimer_Tick;
+                _quizTimer.Start();
+
+                SetQuizLoaded(true);
+                OnPropertyChanged(nameof(Questions));
 
 
             }

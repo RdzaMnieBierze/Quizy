@@ -9,6 +9,7 @@ using System.Windows.Input;
 using Quizy.MVVM.Model;
 using System.Text.Json;
 using System.IO;
+using System.Security.Cryptography;
 
 namespace Quizy.MVVM.Viewmodel
 {
@@ -131,7 +132,27 @@ namespace Quizy.MVVM.Viewmodel
 
                 try
                 {
-                    File.WriteAllText(filePath, json);
+                    byte[] key = new byte[16] {
+                        0x1F, 0xA2, 0x3C, 0x4B,
+                        0x5E, 0x67, 0x88, 0x9D,
+                        0xAB, 0xBC, 0xCD, 0xDE,
+                        0xEF, 0xF0, 0x12, 0x34
+                    };
+
+
+                    byte[] iv = new byte[16] {
+                        0x00, 0x11, 0x22, 0x33,
+                        0x44, 0x55, 0x66, 0x77,
+                        0x88, 0x99, 0xAA, 0xBB,
+                        0xCC, 0xDD, 0xEE, 0xFF};
+
+             
+
+                    byte[] encryptedData = AesEncryption.Encrypt(json, key, iv);
+
+
+
+                    File.WriteAllBytes(filePath, encryptedData);
                     MessageBox.Show("Quiz zapisano pomyślnie!", "Sukces", MessageBoxButton.OK, MessageBoxImage.Information);
                     IsSavingMode = false;
                 }

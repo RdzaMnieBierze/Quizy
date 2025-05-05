@@ -56,7 +56,7 @@
             <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Vertical" VerticalAlignment="Center">
                 <RadioButton Content="Rozpocznij" Style="{StaticResource MenuButtonTheme}" Command="{Binding NavigateSolve}"/>
                 <RadioButton Content="Stwórz" Style="{StaticResource MenuButtonTheme}" Command="{Binding NavigateCreate}"/>
-                <RadioButton Content="Wczytaj" Style="{StaticResource MenuButtonTheme}" Command="{Binding ReadQuizCommand}"/>
+                <RadioButton Content="Nie uzywany" Style="{StaticResource MenuButtonTheme}" Command="{Binding ReadQuizCommand}"/>
                 <RadioButton Content="Edytuj" Style="{StaticResource MenuButtonTheme}"/>
             </StackPanel>
 
