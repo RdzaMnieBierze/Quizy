@@ -122,7 +122,7 @@ namespace Quizy.MVVM.Viewmodel
             OnPropertyChanged(nameof(Questions));
         }
 
-        public string Result => _quiz.score.ToString() + " / " + _quiz.Questions.Count.ToString() + " (" + Math.Round(_quiz.score / _quiz.Questions.Count * 100, 2).ToString() + "%)";
+        public string Result => Math.Round(_quiz.score,2).ToString() + " / " + _quiz.Questions.Count.ToString() + " (" + Math.Round(_quiz.score / _quiz.Questions.Count * 100, 2).ToString() + "%)";
 
         private bool _is_quiz_loaded = false;
 
@@ -233,6 +233,15 @@ namespace Quizy.MVVM.Viewmodel
                     {
                         _tmp_score++;
                     }
+                    else
+                    {
+                        if (_nbAnswers > 1)
+                        {
+                            _tmp_score--;
+                        }
+                        
+                        
+                    }
                 }
               
             }
@@ -284,7 +293,7 @@ namespace Quizy.MVVM.Viewmodel
                     string json = AesEncryption.Decrypt(fileBytes, key, iv);
 
                     this._quiz = JsonSerializer.Deserialize<Quiz>(json);
-                    MessageBox.Show("Plik wczytany pomyślnie!", "Sukces", MessageBoxButton.OK, MessageBoxImage.Information);
+                    //MessageBox.Show("Plik wczytany pomyślnie!", "Sukces", MessageBoxButton.OK, MessageBoxImage.Information);
                     LoadCurrentQuestion();
 
                     _elapsedTime = TimeSpan.Zero;
