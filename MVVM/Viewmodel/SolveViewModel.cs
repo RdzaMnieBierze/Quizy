@@ -173,13 +173,15 @@ namespace Quizy.MVVM.Viewmodel
             ReadQuizCommand = new RelayCommand(ReadQuiz);
 
             _quiz.Questions.Add(new Question(new string[] { "Odp 1", "Odp 2", "Odp 3", "Odp 4"}, new bool[] { false, false, false, true }, "Przykładowe pytanie"));
-     
+
+            _elapsedTime = TimeSpan.Zero;
+            _quizTimer = new System.Windows.Threading.DispatcherTimer();
+            _quizTimer.Interval = TimeSpan.FromSeconds(1);
+            _quizTimer.Tick += QuizTimer_Tick;
 
             LoadCurrentQuestion();
 
-            _elapsedTime = TimeSpan.Zero;
-
-            _quizTimer = new System.Windows.Threading.DispatcherTimer();
+         
 
 
         }
@@ -285,8 +287,7 @@ namespace Quizy.MVVM.Viewmodel
                     MessageBox.Show("Plik wczytany pomyślnie!", "Sukces", MessageBoxButton.OK, MessageBoxImage.Information);
                     LoadCurrentQuestion();
 
-                    _quizTimer.Interval = TimeSpan.FromSeconds(1);
-                    _quizTimer.Tick += QuizTimer_Tick;
+                    _elapsedTime = TimeSpan.Zero;
                     _quizTimer.Start();
 
                     
