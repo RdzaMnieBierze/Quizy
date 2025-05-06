@@ -7,6 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
+        
     <Grid Visibility="{Binding IsResult, Converter={StaticResource InverseBooleanToVisibilityConverter}}">
         
         <Grid.ColumnDefinitions>
@@ -39,7 +40,7 @@
                 </Grid.ColumnDefinitions>
             <Button Command="{Binding NextQuestionCommand}" Content="->" Grid.Column="1" Style="{StaticResource NextButton}"/>
             <Button Command="{Binding EndQuizCommand}" Content="Zakończ" Grid.Column="2" Style="{StaticResource NextButton}"/>
-                <Button Command="{Binding ReadQuizCommand}" Content="Rozpocznij" Grid.Column="0" Style="{StaticResource NextButton}"/>
+                    <Button Command="{Binding ReadQuizCommand}" Content="{Binding EndLoadButtonContent}" Grid.Column="0" Style="{StaticResource NextButton}"/>
             </Grid>
 
        
@@ -49,8 +50,6 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="5*"/>
             </Grid.RowDefinitions>
-            <TextBlock Text="{Binding Result}" FontSize="30" TextAlignment="Center" VerticalAlignment="Stretch"/>
-
             <ListBox Grid.Row="1" Margin="10"  ItemsSource="{Binding Questions.Questions}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
@@ -60,16 +59,10 @@
                            Text="{Binding Content}" />
 
                             <!-- Poprawne odpowiedzi -->
-                            <ItemsControl>
-                                <ItemsControl.ItemsSource>
-                                    <Binding Converter="{StaticResource CorrectAnswersConverter}" />
-                                </ItemsControl.ItemsSource>
+                            <ItemsControl ItemsSource="{Binding Converter={StaticResource CorrectAnswersConverter}}">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
-                                        <TextBlock>
-                                <Run Text="• " />
-                                <Run Text="{Binding Content}" />
-                                        </TextBlock>
+                                        <TextBlock><Run Text="• " /><Run Text=" "/><Run Text="{Binding Content}" /></TextBlock>
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
                             </ItemsControl>
@@ -77,6 +70,8 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
+
+            <TextBlock Text="{Binding Result}" FontSize="30" TextAlignment="Center" VerticalAlignment="Stretch"/>
 
         </Grid>
         

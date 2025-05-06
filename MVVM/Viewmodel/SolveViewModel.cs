@@ -88,6 +88,10 @@ namespace Quizy.MVVM.Viewmodel
 
         public Quiz Questions => _quiz;
 
+        private string _endLoadButtonContent = "Wczytaj";
+
+        public string EndLoadButtonContent => _endLoadButtonContent;
+
 
 
         public ICommand NextQuestionCommand { get; }
@@ -100,6 +104,8 @@ namespace Quizy.MVVM.Viewmodel
 
         private bool CanExecuteNextQuestionCommand(object obj)
         {
+            if(!IsQuizLoaded)
+                return false;
             if (_currentQuestionIndex >= _quiz.Questions.Count)
                 return false;
             return SelectedAnswers.Any();
@@ -255,7 +261,6 @@ namespace Quizy.MVVM.Viewmodel
 
             if (openFileDialog.ShowDialog() == true)
             {
-                byte[] fileBytes = File.ReadAllBytes(openFileDialog.FileName);
                 byte[] key = new byte[16] {
                         0x1F, 0xA2, 0x3C, 0x4B,
                         0x5E, 0x67, 0x88, 0x9D,
@@ -269,21 +274,35 @@ namespace Quizy.MVVM.Viewmodel
                         0x44, 0x55, 0x66, 0x77,
                         0x88, 0x99, 0xAA, 0xBB,
                         0xCC, 0xDD, 0xEE, 0xFF};
-
-                string json = AesEncryption.Decrypt(fileBytes, key, iv);
-
-                this._quiz = JsonSerializer.Deserialize<Quiz>(json);
-                MessageBox.Show("Plik wczytany pomyślnie!", "Sukces", MessageBoxButton.OK, MessageBoxImage.Information);
-                LoadCurrentQuestion();
-                
-                _quizTimer.Interval = TimeSpan.FromSeconds(1);
-                _quizTimer.Tick += QuizTimer_Tick;
-                _quizTimer.Start();
-
-                SetQuizLoaded(true);
-                OnPropertyChanged(nameof(Questions));
+                try
+                {
+                    byte[] fileBytes = File.ReadAllBytes(openFileDialog.FileName);
 
 
+                    string json = AesEncryption.Decrypt(fileBytes, key, iv);
+
+                    this._quiz = JsonSerializer.Deserialize<Quiz>(json);
+                    MessageBox.Show("Plik wczytany pomyślnie!", "Sukces", MessageBoxButton.OK, MessageBoxImage.Information);
+                    LoadCurrentQuestion();
+
+                    _quizTimer.Interval = TimeSpan.FromSeconds(1);
+                    _quizTimer.Tick += QuizTimer_Tick;
+                    _quizTimer.Start();
+
+                    
+                    SetQuizLoaded(true);
+                    OnPropertyChanged(nameof(Questions));
+                    OnPropertyChanged(nameof(EndLoadButtonContent));
+
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show("Nie można wczytać pliku: ", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
+
+
+
+
+                }
             }
         }
 

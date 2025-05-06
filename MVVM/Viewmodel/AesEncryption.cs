@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Quizy.MVVM.Viewmodel
 {
@@ -45,7 +46,25 @@ namespace Quizy.MVVM.Viewmodel
                     {
                         using (StreamReader streamReader = new StreamReader(cryptoStream))
                         {
-                            simpletext = streamReader.ReadToEnd();
+                            try
+                            {
+                                simpletext = streamReader.ReadToEnd();
+                            }
+                            catch (CryptographicException e)
+                            {
+
+                                MessageBox.Show("Decryption failed: " + e.Message);
+                            }
+                            catch (Exception e)
+                            {
+
+                                MessageBox.Show("An error occurred: " + e.Message);
+                            }
+                            finally
+                            {
+                                streamReader.Close();
+
+                            }
                         }
                     }
                 }
