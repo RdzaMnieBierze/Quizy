@@ -10,6 +10,7 @@ using Quizy.MVVM.Model;
 using System.Text.Json;
 using System.IO;
 using System.Security.Cryptography;
+using Microsoft.Win32;
 
 namespace Quizy.MVVM.Viewmodel
 {
@@ -22,6 +23,7 @@ namespace Quizy.MVVM.Viewmodel
         public RelayCommand Next => new RelayCommand(execute => NextQuestion());
         public RelayCommand NewQuestion => new RelayCommand(execute => CreateNewQuestion());
         public RelayCommand Delete => new RelayCommand(execute => DeleteQuestion());
+        public RelayCommand Load => new RelayCommand(execute => LoadQuiz());
         public bool CanGoPrevious => QuestionId > 0;
         public bool CanGoNext => CurrentQuiz != null && QuestionId < CurrentQuiz.Questions.Count - 1;
         public ICommand SaveQuizModeCommand { get; }
@@ -110,6 +112,9 @@ namespace Quizy.MVVM.Viewmodel
             if (CurrentQuiz == null)
                 return;
 
+            SaveCurrentQuestion();
+
+
             CurrentQuiz.Name = QuizName;
 
             var saveFileDialog = new Microsoft.Win32.SaveFileDialog
@@ -196,6 +201,13 @@ namespace Quizy.MVVM.Viewmodel
             else
             {
                 CurrentQuiz.Questions.Add(new Model.Question(Answers, Checked, Question));
+                QuestionId = CurrentQuiz.Questions.Count;
+                OnPropertyChanged(nameof(QuizLenght));
+                OnPropertyChanged(nameof(QuestionId));
+                OnPropertyChanged(nameof(QuestionView));
+                OnPropertyChanged(nameof(CanAddNewQuestion));
+                OnPropertyChanged(nameof(CanGoPrevious));
+                OnPropertyChanged(nameof(CanGoNext));
             }
 
         }
@@ -326,6 +338,46 @@ namespace Quizy.MVVM.Viewmodel
                 OnPropertyChanged(nameof(CanGoNext));
                 OnPropertyChanged(nameof(QuestionId));
                 OnPropertyChanged(nameof(QuestionView));
+            }
+        }
+        private void LoadQuiz()
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Filter = "Pliki JSON (*.JSON)|*.JSON|Wszystkie pliki (*.*)|*.*",
+                Title = "Wczytywanie quizu"
+            };
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                byte[] key = new byte[16] {
+                        0x1F, 0xA2, 0x3C, 0x4B,
+                        0x5E, 0x67, 0x88, 0x9D,
+                        0xAB, 0xBC, 0xCD, 0xDE,
+                        0xEF, 0xF0, 0x12, 0x34
+                    };
+
+
+                byte[] iv = new byte[16] {
+                        0x00, 0x11, 0x22, 0x33,
+                        0x44, 0x55, 0x66, 0x77,
+                        0x88, 0x99, 0xAA, 0xBB,
+                        0xCC, 0xDD, 0xEE, 0xFF};
+                try
+                {
+                    byte[] fileBytes = File.ReadAllBytes(openFileDialog.FileName);
+
+
+                    string json = AesEncryption.Decrypt(fileBytes, key, iv);
+
+                    CurrentQuiz = JsonSerializer.Deserialize<Quiz>(json);
+                    LoadQuestion(0);
+
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show("Nie można wczytać pliku: ", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
         }
     }

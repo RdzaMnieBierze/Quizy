@@ -24,7 +24,8 @@
                                        HorizontalAlignment="Center"
                                        Margin="10,25,10,25"
                                        FontSize="30"
-                                       FontFamily="Resource/#Poppins"/>
+                                       FontFamily="Resource/#Poppins"
+                                       TextWrapping="Wrap"/>
 
                         </Border>
                     </ControlTemplate>

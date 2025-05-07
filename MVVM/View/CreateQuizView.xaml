@@ -22,7 +22,7 @@
             <TextBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding Question}"
                      Margin="40,30,0,30" Style="{StaticResource QuestionInputTheme}"/>
             <Border Grid.ColumnSpan="2" Style="{StaticResource QuestionIdBorderTheme}" HorizontalAlignment="Right" VerticalAlignment="Top">
-                <TextBlock Grid.ColumnSpan="2" Text="{Binding QuestionView}" FontSize="20"/>
+                <TextBlock Grid.ColumnSpan="2" Text="{Binding QuestionView}" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center"/>
             </Border>
 
             <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center">
@@ -44,6 +44,7 @@
             <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"
                         HorizontalAlignment="Center">
                 <Button Style="{StaticResource NavigationButton}" Content="&lt;-" Command="{Binding Previous}" IsEnabled="{Binding CanGoPrevious}"/>
+                <Button Style="{StaticResource NavigationButton}" Content="Wczytaj" Command="{Binding Load}"/>
                 <Button Style="{StaticResource NavigationButton}" Content="Dodaj" Command="{Binding Add}" IsEnabled="{Binding CanAddNewQuestion}"/>
                 <Button Style="{StaticResource NavigationButton}" Content="Stwórz nowe" Command="{Binding NewQuestion}"/>
                 <Button Style="{StaticResource NavigationButton}" Content="Usuń pytanie" Command="{Binding Delete}"/>

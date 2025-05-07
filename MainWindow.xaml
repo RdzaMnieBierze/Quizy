@@ -53,10 +53,9 @@
                 <Button Content="X" BorderThickness="0" Foreground="Black" Background="Transparent" Command="{Binding exit}" FontFamily="/Resource/#Poppins" FontWeight="Bold"/>
             </Border>
 
-            <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Vertical" VerticalAlignment="Center">
-                <RadioButton Content="Rozwiąż" Style="{StaticResource MenuButtonTheme}" Command="{Binding NavigateSolve}" Checked="RadioButton_Checked"/>
-                <RadioButton Content="Stwórz" Style="{StaticResource MenuButtonTheme}" Command="{Binding NavigateCreate}"/>
-                <RadioButton Content="Edytuj" Style="{StaticResource MenuButtonTheme}"/>
+            <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Vertical" VerticalAlignment="Top">
+                <RadioButton Content="Rozwiąż" Style="{StaticResource MenuButtonTheme}" Command="{Binding NavigateSolve}"/>
+                <RadioButton Content="Stwórz lub Edytuj" Style="{StaticResource MenuButtonTheme}" Command="{Binding NavigateCreate}"/>
             </StackPanel>
 
             <ContentControl Content="{Binding CurrentViewModel}" Grid.Column="1" Grid.Row="1"/>

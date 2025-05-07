@@ -22,10 +22,5 @@ namespace Quizy
             InitializeComponent();
             DataContext = new MainViewModel(new NavigationService());
         }
-
-        private void RadioButton_Checked(object sender, RoutedEventArgs e)
-        {
-
-        }
     }
 }
