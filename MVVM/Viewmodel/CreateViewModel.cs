@@ -26,7 +26,8 @@ namespace Quizy.MVVM.Viewmodel
         public RelayCommand Load => new RelayCommand(execute => LoadQuiz());
         public bool CanGoPrevious => QuestionId > 0;
         public bool CanGoNext => CurrentQuiz != null && QuestionId < CurrentQuiz.Questions.Count - 1;
-        public ICommand SaveQuizModeCommand { get; }
+        public RelayCommand SaveQuizModeCommand => new RelayCommand(execute => ChangeSaveQuizMode());
+        //public ICommand SaveQuizModeCommand { get; }
         public ICommand SaveQuizCommand { get; }
         public ICommand CancelSaveCommand { get; }
         public int QuizLenght => CurrentQuiz?.Questions.Count ?? 0;
@@ -103,17 +104,31 @@ namespace Quizy.MVVM.Viewmodel
         {
             if (CurrentQuiz == null)
                 CurrentQuiz = new Quiz();
-            SaveQuizModeCommand = new RelayCommand(_ => IsSavingMode = true);
             SaveQuizCommand = new RelayCommand(_ => SaveQuiz());
             CancelSaveCommand = new RelayCommand(_ => IsSavingMode = false);
+        }
+        private void ChangeSaveQuizMode()
+        {
+            if(CheckQuestion())
+            {
+                IsSavingMode = true;
+            }
+            else
+            {
+                MessageBox.Show("Nie można zapisać nie pełnego pytania.", "Informacja", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
         }
         private void SaveQuiz()
         {
             if (CurrentQuiz == null)
                 return;
 
-            SaveCurrentQuestion();
 
+            SaveCurrentQuestion();
+            QuestionId--;
+            OnPropertyChanged(nameof(QuestionId));
+            OnPropertyChanged(nameof(QuestionView));
 
             CurrentQuiz.Name = QuizName;
 
@@ -188,6 +203,7 @@ namespace Quizy.MVVM.Viewmodel
         {
             if (CurrentQuiz == null)
                 return;
+
 
             if (QuestionId < CurrentQuiz.Questions.Count)
             {
