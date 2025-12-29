@@ -4,7 +4,7 @@ Nowoczesna aplikacja desktopowa służąca do tworzenia i rozwiązywania testów
 
 ## 📸 Rzut oka na aplikację
 
-> [Tu wstaw zrzut ekranu: Główny widok / Menu wyboru quizów]
+![](Tworzenie.png)
 
 ## 🚀 Główne Funkcjonalności
 
@@ -15,7 +15,7 @@ Aplikacja została zaprojektowana z myślą o prostocie i elastyczności:
 * **📂 Import JSON:** Możliwość wczytywania gotowych quizów z plików tekstowych. Dzięki temu łatwo podzielisz się testami ze znajomymi.
 * **📊 Podsumowanie:** Po zakończeniu testu otrzymujesz wynik i statystyki.
 
-> [Tu wstaw zrzut ekranu: Widok podczas rozwiązywania pytania]
+![](Rozwiazywanie.png)
 
 ## 🛠️ Pod maską (Tech Stack)
 
